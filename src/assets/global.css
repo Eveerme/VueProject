@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.ml-5{
+    margin-left: 5px;
+}
+.mr-5{
+    margin-right: 5px;
+}
+.mb-10{
+    margin-bottom: 10px;
+}
+.pd-10{
+    padding: 10px 0;
+}
+.btw-80{
+    width: 80px;
+}
