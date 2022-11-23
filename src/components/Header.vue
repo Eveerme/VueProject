@@ -12,11 +12,11 @@
         <i class="el-icon-arrow-down" style="margin-left: 5px"></i>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>
-          <router-link to="/adminInfo">个人信息</router-link>
+        <el-dropdown-item @click.native="handleAdminInfo">
+          个人信息
         </el-dropdown-item>
-        <el-dropdown-item >
-          <span style="text-decoration: none" @click="logout">退出</span>
+        <el-dropdown-item @click.native="logout">
+          退出
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -46,6 +46,9 @@ export default {
       this.$router.push("/login")
       localStorage.removeItem("admin")
       this.$message.success("退出成功")
+    },
+    handleAdminInfo(){
+      this.$router.push("/adminInfo")
     }
   }
 }

@@ -1,13 +1,21 @@
 <template>
   <div>
-    <el-card>
+    <div  style="width:14%;height: 130px;border-radius: 100px;display:inline-block;">
+      <img
+          style="border-radius: 80px"
+          :src="admin.avatar"
+          class="img">
+    </div>
+    <br>
+    <br>
+    <el-card style="width: 1100px ; margin-left: 20px" >
       <el-descriptions title="简介" :column="2" border>
         <template slot="extra">
           <el-button type="primary" size="small" @click="handleEdit">编辑个人信息</el-button>
           <el-dialog
               title="修改个人信息"
               :visible.sync="dialogVisible"
-              width="60%"
+              width="40%"
               :before-close="handleClose">
             <el-form :model="ruleForm" :rules="rules" ref="form" label-width="150px">
               <div class="updateInfo">
@@ -38,40 +46,12 @@
               <el-button type="primary" @click="handleSumit">提 交</el-button>
             </span>
           </el-dialog>
-
         </template>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-picture-outline"></i>头像
-          </template>
-          <img class="img" :src="admin.avatar" alt="" />
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-user"></i>账户名
-          </template>
-          {{ admin.adminCount }}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-s-custom"></i>昵称
-          </template>
-          {{ admin.adminNickname }}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-mobile-phone"></i>
-            手机号码
-          </template>
-          {{ admin.phone }}
-        </el-descriptions-item>
-        <el-descriptions-item>
-          <template slot="label">
-            <i class="el-icon-date"></i>
-            注册日期
-          </template>
-          {{ admin.createTime }}
-        </el-descriptions-item>
+        <el-descriptions-item label="ID" ><p class="message">{{admin.id}}</p></el-descriptions-item>
+        <el-descriptions-item label="账号" ><p class="message">{{admin.adminCount}}</p></el-descriptions-item>
+        <el-descriptions-item label="昵称" ><p class="message">{{admin.adminNickname}}</p></el-descriptions-item>
+        <el-descriptions-item label="手机号码" ><p class="message">{{admin.phone}}</p></el-descriptions-item>
+        <el-descriptions-item label="注册日期" ><p class="message">{{admin.createTime}}</p></el-descriptions-item>
       </el-descriptions>
     </el-card>
   </div>
@@ -129,7 +109,7 @@ export default {
       }
     };
     return {
-      admin: localStorage.getItem("admin") ? JSON.parse(localStorage.getItem("admin")) : {},
+      admin: {},
       dialogVisible: false,
       ruleForm: {
         avatar: "",
@@ -156,9 +136,21 @@ export default {
         phone: [
           {validator: checkPhone, trigger: 'blur'}
         ]
-      },
+      }
     }
   },
+  created() {
+    this.admin = JSON.parse(localStorage.getItem("admin"));
+    this.request.get("/admin/"+this.admin.id).then(res =>{
+      if (res.status=="200"){
+        this.admin = res.data
+        this.$message.success(res.msg);
+      } else {
+        this.$message.error(res.msg)
+      }
+    })
+  }
+  ,
   methods: {
     handleEdit(){
       this.dialogVisible=true
@@ -185,8 +177,8 @@ export default {
 
 <style scoped>
 .img {
-  width: 80px;
-  height: 80px;
+  width: 180px;
+  height: 180px;
 }
 .updateInfo {
   height: 350px;
@@ -196,7 +188,10 @@ export default {
   /* width: 330px; */
   float: left;
 }
-.right {
+.message{
+  width: 20em;
   overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
 </style>
