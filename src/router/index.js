@@ -20,6 +20,12 @@ const routes = [
         name: 'User',
         meta: { title: '用户管理'},
         component: () => import('../views/User.vue')
+      },
+      {
+        path: 'adminInfo',
+        name: 'AdminInfo',
+        meta: { title: '个人中心'},
+        component: () => import('../views/admin/AdminInfo.vue')
       }
     ]
   },
