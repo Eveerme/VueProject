@@ -67,7 +67,7 @@ export default {
       })
     },
     handleSignUp(){
-
+      this.$router.push("/register")
     }
   }
 
